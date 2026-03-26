@@ -19,29 +19,27 @@ let currentProfile = null;
 
 function loadProfile() {
 
-    if (typeof profile !== "object" || profile === null) {
-        return false;
+    const text = document.getElementById("profileInput").value;
+
+    let profile;
+
+    try {
+        profile = JSON.parse(text);
+    } catch (error) {
+        alert("Invalid JSON");
+        return;
     }
 
-    if (!Object.prototype.hasOwnProperty.call(profile, "username")) {
-        return false;
-    }
-
-    if (!Object.prototype.hasOwnProperty.call(profile, "notifications")) {
-        return false;
-    }
-
-    if (typeof profile.username !== "string") {
-        return false;
-    }
-
-    if (!Array.isArray(profile.notifications)) {
-        return false;
+    if (typeof profile !== "object" || profile === null || typeof profile.username !== "string" ||
+        !Array.isArray(profile.notifications)) {
+        alert("Invalid profile data");
+        return;
     }
 
     for (let n of profile.notifications) {
         if (typeof n !== "string") {
-            return false;
+            alert("Invalid notifications");
+            return;
         }
     }
     
@@ -95,7 +93,7 @@ function saveSession() {
         const li = document.createElement("li");
         li.textContent = n;
         list.appendChild(li);
-    }
+ }
 }
 
 
