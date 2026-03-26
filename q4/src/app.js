@@ -54,22 +54,30 @@ function loadProfile() {
 
 function renderProfile(profile) {
 
-    
-    document.getElementById("username").innerHTML = profile.username;
+    const text = document.getElementById("profileInput").value;
 
-    const list = document.getElementById("notifications");
-    list.innerHTML = "";
+    let profile;
 
-    for (let n of profile.notifications) {
-
-        const li = document.createElement("li");
-
-        
-        li.innerHTML = n;
-
-        list.appendChild(li);
+    try {
+        profile = JSON.parse(text);
+    } catch (error) {
+        alert("Invalid JSON");
+        return;
     }
+
+    if (!isValidProfile(profile)) {
+        alert("Invalid profile data");
+        return;
+    }
+
+    currentProfile = {
+        username: profile.username,
+        notifications: profile.notifications
+    };
+
+    renderProfile(currentProfile);
 }
+
 
 
 /* -------------------------
@@ -77,9 +85,17 @@ function renderProfile(profile) {
 -------------------------- */
 
 function saveSession() {
-    localStorage.setItem("profile", JSON.stringify(currentProfile));
+    
+    document.getElementById("username").textContent = profile.username;
+    
+    const list = document.getElementById("notifications");
+    list.innerHTML = "";
 
-    alert("Session saved");
+    for (let n of profile.notifications) {
+        const li = document.createElement("li");
+        li.textContent = n;
+        list.appendChild(li);
+    }
 }
 
 
