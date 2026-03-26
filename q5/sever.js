@@ -44,16 +44,16 @@ app.post("/login", (req, res) => {
     const password = req.body.password
 
     const query =
-        "SELECT * FROM users WHERE username = '" +
+        "SELECT * FROM users WHERE username = ?" +
         username +
-        "' AND password = '" +
+        "' AND password = ?" +
         password +
         "'"
 
     console.log("\nExecuting SQL:")
     console.log(query)
 
-    db.all(query, (err, rows) => {
+    db.all(query, [username, password], (err, rows) => {
 
         if (err) {
             return res.status(500).send("Database error")
