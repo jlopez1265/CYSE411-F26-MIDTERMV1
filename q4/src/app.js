@@ -52,28 +52,19 @@ function loadProfile() {
 
 function renderProfile(profile) {
 
-    const text = document.getElementById("profileInput").value;
+    document.getElementById("username").textContent = profile.username;
 
-    let profile;
+    const list = document.getElementById("notifications");
+    list.innerHTML = "";
 
-    try {
-        profile = JSON.parse(text);
-    } catch (error) {
-        alert("Invalid JSON");
-        return;
+    for (let n of profile.notifications) {
+
+        const li = document.createElement("li");
+        li.textContent = n;
+        list.appendChild(li);
+
+
     }
-
-    if (!isValidProfile(profile)) {
-        alert("Invalid profile data");
-        return;
-    }
-
-    currentProfile = {
-        username: profile.username,
-        notifications: profile.notifications
-    };
-
-    renderProfile(currentProfile);
 }
 
 
