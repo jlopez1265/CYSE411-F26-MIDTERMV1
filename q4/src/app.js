@@ -96,12 +96,39 @@ function loadSession() {
 
     const stored = localStorage.getItem("profile");
 
-    if (stored) {
-
-        const profile = JSON.parse(stored);
-
-        currentProfile = profile;
-
-        renderProfile(profile);
+    if (!stored) {
+        return;
     }
+
+    let profile;
+
+    try {
+        profile = JSON.parse(stored);
+    } catch (error) {
+        localStorage.removeItem("profile");
+        alert("Session is corrupted");
+        return;
+    }
+
+    if (typeof profile !== "object" || profile === null || typeof profile.username !== "string" ||
+        !Array.isArray(profile.notifications)) {
+        localStorage.removeItem("profile");
+        alert("Invalid session data");
+        return;
+    }
+
+    for (let n of profile.notifications) {
+        if (typeof n !== "string") {
+            localStorage.removeItem("profile");
+            alert("Invalid session data");
+            return;
+        }
+    }
+
+    currentProfile = {
+        username: profile.username,
+        notifications: profile.notifications
+    };
+
+    renderProfile(currentProfile);
 }
