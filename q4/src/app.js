@@ -75,17 +75,21 @@ function renderProfile(profile) {
 
 function saveSession() {
     
-    document.getElementById("username").textContent = profile.username;
-    
-    const list = document.getElementById("notifications");
-    list.innerHTML = "";
+    if (!currentProfile || typeof currentProfile.username !== "string" ||
+        !Array.isArray(currentProfile.notifications))  {
+        alert("No valid session to save");
+        return;
+    }
 
-    for (let n of profile.notifications) {
-        const li = document.createElement("li");
-        li.textContent = n;
-        list.appendChild(li);
+    const safeProfile = {
+        username: currentProfile.username,
+        notifications: currentProfile.notifications
+    };
+
+    localStorage.setItem("profile", JSON.stringify(safeProfile));
+    alert("Session has been saved");
  }
-}
+
 
 
 function loadSession() {
