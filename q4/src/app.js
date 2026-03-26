@@ -128,7 +128,7 @@ function loadSession() {
     currentProfile = {
         username: profile.username,
         notifications: profile.notifications
-    };
+    }
 
     renderProfile(currentProfile);
 }
