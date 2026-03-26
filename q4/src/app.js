@@ -19,14 +19,32 @@ let currentProfile = null;
 
 function loadProfile() {
 
-    const text = document.getElementById("profileInput").value;
+    if (typeof profile !== "object" || profile === null) {
+        return false;
+    }
 
-   
-    const profile = JSON.parse(text);
+    if (!Object.prototype.hasOwnProperty.call(profile, "username")) {
+        return false;
+    }
 
-    currentProfile = profile;
+    if (!Object.prototype.hasOwnProperty.call(profile, "notifications")) {
+        return false;
+    }
 
-    renderProfile(profile);
+    if (typeof profile.username !== "string") {
+        return false;
+    }
+
+    if (!Array.isArray(profile.notifications)) {
+        return false;
+    }
+
+    for (let n of profile.notifications) {
+        if (typeof n !== "string") {
+            return false;
+        }
+    }
+    
 }
 
 
