@@ -84,7 +84,7 @@ function saveSession() {
     const safeProfile = {
         username: currentProfile.username,
         notifications: currentProfile.notifications
-    };
+    }
 
     localStorage.setItem("profile", JSON.stringify(safeProfile));
     alert("Session has been saved");
